@@ -1,0 +1,27 @@
+---
+alwaysApply: true
+---
+🏛️ Terraform Development Guidelines & Best Practices1. Project Philosophy: "Modules as Bricks, Root as the Architect"We will strictly follow the Root-Module Pattern.The Modules (./modules/*): Dumb, reusable logic. They know how to build a resource (e.g., "I know how to make an EC2 instance") but they don't know what specific project they are building for.Rule: No hardcoded values (like 10.0.0.0/16) inside modules. Everything must be a variable.The Root (./): The intelligent orchestrator. It calls the modules and passes the specific values (variables) to them.2. Directory Structure & NamingWe will use a standard structure that any DevOps engineer would instantly recognize.Folder StructurePlaintext3tier-project/
+├── main.tf                 # Orchestrator: Calls modules, passes data between them
+├── variables.tf            # Global inputs (Region, Project Name, CIDRs)
+├── outputs.tf              # Final outputs (ALB DNS, DB Endpoint)
+├── provider.tf             # Provider config & Backend definitions
+├── versions.tf             # Lock Terraform & Provider versions (Crucial for stability)
+├── modules/                
+│   ├── networking/         # VPC, Subnets, Gateways, Routes
+│   ├── security/           # Security Groups & Rules
+│   ├── compute/            # EC2, ASG, Launch Templates
+│   ├── alb/                # Load Balancer, Listeners, Target Groups
+│   └── database/           # RDS, Subnet Groups
+└── README.md               # Documentation & Diagram
+Naming Conventions (snake_case)Messy names make debugging a nightmare. We will use snake_case for everything.TypeRuleBad ExampleGood ExampleResourcesDescriptive, omit resource typeresource "aws_vpc" "project_vpc"resource "aws_vpc" "main"VariablesExplicit units where applicablevariable "memory"variable "memory_size_gb"OutputsDescriptive of valueoutput "id"output "vpc_id"TagsProject-standard set on all resourcesName = "server"Name = "dev-3tier-web"Why omit resource type?When you reference it in code, aws_vpc.project_vpc.id is redundant. aws_vpc.main.id reads cleanly.3. Coding Standards ("Clean Code")A. Input VariablesEvery variable in variables.tf must have:description: Explain what it is (for auto-generated docs).type: Enforce string, number, list, or bool.default (Optional): Only if a safe default exists.Terraformvariable "vpc_cidr" {
+  description = "The CIDR block for the main VPC network"
+  type        = string
+  default     = "10.0.0.0/16"
+}
+B. OutputsModules must return data to be useful. If you create a Security Group in a module, you must output its ID so the EC2 module can use it.Terraform# modules/security/outputs.tf
+output "web_sg_id" {
+  description = "The ID of the Web Security Group"
+  value       = aws_security_group.web.id
+}
+C. FormattingBefore every commit, you must run:terraform fmt -recursive: Automatically fixes spacing and alignment.terraform validate: Checks for syntax errors before you try to deploy.4. Security Rules (DevSecOps)No Secrets in Plain Text:Never commit a terraform.tfvars file if it contains passwords.Pass sensitive data (like DB passwords) via environment variables (e.g., export TF_VAR_db_password='...') or use AWS Secrets Manager.Least Privilege Networking:Internal traffic should typically use CIDR blocks (e.g., 10.0.0.0/16), not 0.0.0.0/0.Exception: ALB HTTP/HTTPS access requires 0.0.0.0/0.SSH (Port 22) must never be open to 0.0.0.0/0 in production. For this project, restrict it to your IP.5. Implementation Roadmap (Dependency Order)We will build in this specific order to avoid "Dependency Hell" (where you try to build a house before the foundation is laid).Setup: Create folders and empty files.Networking: Build VPC, Subnets, Internet Gateway. Verify with terraform apply.Security: Build Security Groups. These need the VPC ID from step 2.Database: Build RDS. This takes the longest (15+ mins), so start it early.ALB: Build the Load Balancer and Target Group. Needs Public Subnets and SG.Compute: Build ASG/EC2. Needs Private Subnets, App SG, and ALB Target Group.
