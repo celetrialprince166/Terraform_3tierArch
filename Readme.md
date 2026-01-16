@@ -8,11 +8,11 @@ This documentation is designed to be a high-level summary of your project’s ar
 
 The application follows a highly available, secure, and scalable **three-tier architecture** deployed on AWS.
 
-> [!NOTE]
-> *Requirement: A high-resolution diagram showing a VPC with Public Subnets (ALB & Bastion) and Private Subnets (App & RDS). Indicate traffic flow from the Internet Gateway → ALB → Private EC2 Instances.*
+> 
+> 
 
 
-![Archteture](screenshots/archeteture.png)
+![Archteture](screenshots/archeteture2.png)
 ### Infrastructure Components
 
 | Component | Description |
@@ -30,8 +30,6 @@ The application follows a highly available, secure, and scalable **three-tier ar
 
 We converted the Next.js application into a production-ready Docker image using a multi-stage build. This reduces the image size and ensures the production environment is stripped of development bloat.
 
-> [!NOTE]
-> *Requirement: Capture the terminal output showing the successful multi-stage build completion.*
 
 ![Branch merge result](screenshots/logforbuild.png)
 ### Phase 2: CI/CD Pipeline (GitHub Actions)
@@ -42,9 +40,7 @@ The deployment is fully automated. On every push to `main`, GitHub Actions:
 2. Pushes the image to Docker Hub.
 3. Triggers an SSH command via the **Bastion Host** to update the private EC2 instances.
 
-> [!NOTE]
 
-> *Requirement: Capture the "green" checkmarks in the GitHub Actions tab showing a successful "Build and Push" job.*
 ![Branch merge result](screenshots/pipeline.png)
 ![Branch merge result](screenshots/successbuild.png)
 
