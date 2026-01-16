@@ -12,7 +12,7 @@ The application follows a highly available, secure, and scalable **three-tier ar
 > *Requirement: A high-resolution diagram showing a VPC with Public Subnets (ALB & Bastion) and Private Subnets (App & RDS). Indicate traffic flow from the Internet Gateway → ALB → Private EC2 Instances.*
 
 
-![Archteture](screenshots\archeteture.png)
+![Archteture](screenshots/archeteture.png)
 ### Infrastructure Components
 
 | Component | Description |
@@ -81,8 +81,8 @@ docker run -d \
 The application is successfully accessible via the Application Load Balancer DNS.
 
 > [!NOTE]
-> *Requirement: A screenshot of your browser showing the PharmaAI dashboard loading via the AWS ALB URL (e.g., `pharma-alb-12345.us-east-1.elb.amazonaws.com`).*
-![Branch merge result](screenshots\working.png)
+>`pharma-alb-12345.us-east-1.elb.amazonaws.com`).*
+![Branch merge result](screenshots/working.png)
 ---
 
 ## 5. Security & Operations
@@ -90,6 +90,6 @@ The application is successfully accessible via the Application Load Balancer DNS
 * **No Secret Exposure:** All keys (Clerk, Paystack, DB) are stored as GitHub Secrets or Terraform Variables and never hardcoded in source code.
 * **Monitoring:** Logs are directed to `/var/log/user-data.log` on the EC2 instances for rapid troubleshooting.
 * **Scalability:** The ASG is configured to maintain a minimum of 1 and a maximum of 3 instances based on traffic.
-![Branch merge result](screenshots\terraformlogs.png)
+![Branch merge result](screenshots/terraformlogs.png)
 ---
 
