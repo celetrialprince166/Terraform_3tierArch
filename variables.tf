@@ -113,7 +113,7 @@ variable "dockerhub_token" {
   description = "Docker Hub access token (not password) for authenticating with Docker Hub. Generate this from Docker Hub account settings. WARNING: This is sensitive and should be stored in terraform.tfvars (which is gitignored)."
   type        = string
   sensitive   = true
- 
+
 }
 
 # -----------------------------------------------------------------------------

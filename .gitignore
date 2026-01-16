@@ -13,8 +13,9 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# Terraform variable files (may contain secrets)
 
+# Terraform variable files (may contain secrets)
+terraform.tfvars
 
 # Keep example files
 !example.tfvars
@@ -130,4 +131,7 @@ yarn-error.log*
 
 # Docker (if any local Docker files)
 .dockerignore
+
+
+
 

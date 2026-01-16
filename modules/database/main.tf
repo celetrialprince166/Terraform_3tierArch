@@ -69,8 +69,8 @@ resource "aws_db_instance" "postgres" {
   storage_type      = "gp3" # General Purpose SSD (gp3) - modern, faster, cheaper than gp2
 
   # Database configuration
-  db_name  = "myappdb" # Initial database name
-  engine   = data.aws_rds_engine_version.postgres.engine
+  db_name = "myappdb" # Initial database name
+  engine  = data.aws_rds_engine_version.postgres.engine
   # Use the dynamically fetched version for latest patches
   engine_version = data.aws_rds_engine_version.postgres.version
   instance_class = "db.t3.micro" # Instance size - adjust based on workload

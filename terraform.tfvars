@@ -7,11 +7,11 @@ availability_zones = ["eu-west-1a", "eu-west-1b"]
 region             = "eu-west-1" # Or your preferred region
 my_ip              = "0.0.0.0/0" # REPLACE THIS with your actual IP for security!
 # Compute Specs
-instance_type      = "t3.micro"
-ami_ssm_path       = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
-key_name = "teir_3key"
-db_password = "Testdbpass"
-db_username = "Testdbuser"
+instance_type = "t3.micro"
+ami_ssm_path  = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+key_name      = "teir_3key"
+db_password   = "Testdbpass"
+db_username   = "Testdbuser"
 
 # --- CLERK AUTHENTICATION ---
 clerk_secret_key = "sk_test_1JmmGgtIqwYNkUmEu3NY33mQ1s0pqJd6d9R5iqTRWJ"

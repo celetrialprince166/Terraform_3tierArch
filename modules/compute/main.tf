@@ -201,8 +201,8 @@ resource "aws_launch_template" "app" {
 resource "aws_autoscaling_group" "app" {
   # Capacity settings
   desired_capacity = var.asg_desired_cap # Target number of instances
-  max_size         = var.asg_max_size     # Maximum instances (cost control)
-  min_size         = var.asg_min_size     # Minimum instances (availability)
+  max_size         = var.asg_max_size    # Maximum instances (cost control)
+  min_size         = var.asg_min_size    # Minimum instances (availability)
 
   # Network configuration
   # Instances are launched in private subnets across multiple AZs

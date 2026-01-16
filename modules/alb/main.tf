@@ -25,7 +25,7 @@
 # -----------------------------------------------------------------------------
 resource "aws_lb" "main" {
   name               = "${var.project_name}-alb"
-  internal           = false # Public-facing ALB (receives traffic from internet)
+  internal           = false         # Public-facing ALB (receives traffic from internet)
   load_balancer_type = "application" # Layer 7 load balancer (vs Network LB which is Layer 4)
 
   # Security group controls what traffic can reach the ALB

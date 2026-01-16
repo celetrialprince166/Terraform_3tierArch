@@ -70,8 +70,8 @@ module "security" {
 # Note: Database credentials are marked as sensitive in variables.tf
 # -----------------------------------------------------------------------------
 module "database" {
-  source                = "./modules/database"
-  project_name          = var.project_name
+  source       = "./modules/database"
+  project_name = var.project_name
   # Database must be in private subnets for security isolation
   private_db_subnet_ids = module.networking.private_db_subnet_ids
   # Security group restricts access to application tier only
@@ -90,9 +90,9 @@ module "database" {
 # - Serves as the single entry point for external users
 # -----------------------------------------------------------------------------
 module "alb" {
-  source            = "./modules/alb"
-  project_name      = var.project_name
-  vpc_id            = module.networking.vpc_id
+  source       = "./modules/alb"
+  project_name = var.project_name
+  vpc_id       = module.networking.vpc_id
   # ALB must be in public subnets to receive internet traffic
   public_subnet_ids = module.networking.public_subnet_ids
   # Security group allows HTTP traffic from internet
@@ -115,12 +115,12 @@ module "alb" {
 #   - Integration with ALB target group for load distribution
 # -----------------------------------------------------------------------------
 module "compute" {
-  source                 = "./modules/compute"
-  project_name           = var.project_name
-  instance_type          = var.instance_type
-  ami_ssm_path           = var.ami_ssm_path
+  source        = "./modules/compute"
+  project_name  = var.project_name
+  instance_type = var.instance_type
+  ami_ssm_path  = var.ami_ssm_path
   # Bastion host in first public subnet for SSH access
-  public_subnet_id       = module.networking.public_subnet_ids[0]
+  public_subnet_id = module.networking.public_subnet_ids[0]
   # Application servers in private subnets for security
   private_app_subnet_ids = module.networking.private_app_subnet_ids
   bastion_sg_id          = module.security.bastion_sg_id
@@ -157,11 +157,11 @@ module "compute" {
   # They are never hardcoded in the application code, following the
   # 12-factor app methodology for configuration management.
   # ---------------------------------------------------------------------------
-  dockerhub_username = var.dockerhub_username
-  dockerhub_token    = var.dockerhub_token
-  clerk_secret_key   = var.clerk_secret_key
-  clerk_pub_key      = var.clerk_pub_key
-  paystack_key       = var.paystack_key
+  dockerhub_username  = var.dockerhub_username
+  dockerhub_token     = var.dockerhub_token
+  clerk_secret_key    = var.clerk_secret_key
+  clerk_pub_key       = var.clerk_pub_key
+  paystack_key        = var.paystack_key
   paystack_public_key = var.paystack_public_key
 
   # ---------------------------------------------------------------------------
